@@ -1,4 +1,4 @@
-﻿namespace Orientation.Core
+﻿namespace Orientation.Core.OrientationRepresentations
 {    
     /// <summary>
     /// Struct for Euler angles 

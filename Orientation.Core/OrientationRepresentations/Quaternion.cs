@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 
-namespace Orientation.Core
+namespace Orientation.Core.OrientationRepresentations
 {    
     public readonly struct Quaternion : IEquatable<Quaternion>, IFormattable
     {
@@ -137,9 +137,7 @@ namespace Orientation.Core
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (string.IsNullOrEmpty(format))
-            {
                 format = @"({0}, {1}, {2}, {3})";
-            }
             return string.Format(format, W.ToString(formatProvider), X.ToString(formatProvider), Y.ToString(formatProvider), Z.ToString(formatProvider));
         }
         #endregion

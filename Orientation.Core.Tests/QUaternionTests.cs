@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework.Constraints;
+using Orientation.Core.OrientationRepresentations;
 using System.Globalization;
 
 namespace Orientation.Core.Tests;
