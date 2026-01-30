@@ -1,4 +1,6 @@
-﻿namespace Orientation.Core.Tests;
+﻿using Orientation.Core.OrientationRepresentations;
+
+namespace Orientation.Core.Tests;
 
 [TestFixture]
 public class EulerAnglesTests
