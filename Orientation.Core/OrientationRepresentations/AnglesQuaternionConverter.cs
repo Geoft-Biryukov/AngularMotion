@@ -34,10 +34,12 @@ namespace Orientation.Core.OrientationRepresentations
             var halfTheta = 0.5 * theta;
             var halfPhi = 0.5 * phi;
 
-            double cosHalfPsi = MathAngle.Cos(halfPsi);
-            double sinHalfPsi = MathAngle.Sin(halfPsi);
             double cosHalfTheta = MathAngle.Cos(halfTheta);
             double sinHalfTheta = MathAngle.Sin(halfTheta);
+            
+            double cosHalfPsi = MathAngle.Cos(halfPsi);
+            double sinHalfPsi = MathAngle.Sin(halfPsi);
+           
             double cosHalfPhi = MathAngle.Cos(halfPhi);
             double sinHalfPhi = MathAngle.Sin(halfPhi);
 
@@ -53,22 +55,24 @@ namespace Orientation.Core.OrientationRepresentations
        
         private static Quaternion FromKrylovEulerAngles(Angle psi, Angle theta, Angle phi)
         {
-            var halfYaw = 0.5 * psi;
-            var halfPitch = 0.5 * theta;
+            var halfPsi = 0.5 * psi;
+            var halfTheta = 0.5 * theta;
             var halfPhi = 0.5 * phi ;      
             
-            double cosHalfYaw = MathAngle.Cos(halfYaw);
-            double sinHalfYaw = MathAngle.Sin(halfYaw);
-            double cosHalfPitch = MathAngle.Cos(halfPitch);
-            double sinHalfPitch = MathAngle.Sin(halfPitch);
-            double cosHalfRoll = MathAngle.Cos(halfPhi);
-            double sinHalfRoll = MathAngle.Sin(halfPhi);
+            double cosHalfPsi = MathAngle.Cos(halfPsi);
+            double sinHalfPsi = MathAngle.Sin(halfPsi);
 
-            // Умножение кватернионов: q = q_z(yaw) * q_y(pitch) * q_x(roll)
-            double w = cosHalfYaw * cosHalfPitch * cosHalfRoll + sinHalfYaw * sinHalfPitch * sinHalfRoll;
-            double x = cosHalfYaw * cosHalfPitch * sinHalfRoll - sinHalfYaw * sinHalfPitch * cosHalfRoll;
-            double y = cosHalfYaw * sinHalfPitch * cosHalfRoll + sinHalfYaw * cosHalfPitch * sinHalfRoll;
-            double z = sinHalfYaw * cosHalfPitch * cosHalfRoll - cosHalfYaw * sinHalfPitch * sinHalfRoll;
+            double cosHalfTheta = MathAngle.Cos(halfTheta);
+            double sinHalfTheta = MathAngle.Sin(halfTheta);
+
+            double cosHalfPhi = MathAngle.Cos(halfPhi);
+            double sinHalfPhi = MathAngle.Sin(halfPhi);
+
+            // Умножение кватернионов: q = q_y(yaw) * q_z(pitch) * q_x(roll)
+            double w = cosHalfPsi * cosHalfTheta * cosHalfPhi - sinHalfPsi * sinHalfTheta * sinHalfPhi;
+            double x = sinHalfPsi * sinHalfTheta * cosHalfPhi + cosHalfPsi * cosHalfTheta * sinHalfPhi;
+            double y = sinHalfPsi * cosHalfTheta * cosHalfPhi + cosHalfPsi * sinHalfTheta * sinHalfPhi;
+            double z = cosHalfPsi * sinHalfTheta * cosHalfPhi - sinHalfPsi * cosHalfTheta * sinHalfPhi;
 
             return new Quaternion(w, x, y, z);
         }
