@@ -77,5 +77,43 @@ namespace Orientation.Core.OrientationRepresentations
             return new Quaternion(w, x, y, z);
         }
         #endregion
+
+        #region ToEulerAngles
+
+        public static EulerAngles ToEulerAngles(this Quaternion q, EulerAnglesTypes anglesType)
+        => anglesType switch
+        { 
+            EulerAnglesTypes.Classic => ToClassicEulerAngles(q),
+            EulerAnglesTypes.Krylov => ToKrylovEulerAngles(q),
+            _ => throw new NotSupportedException($"Неизвестный тип углов Эйлера: {anglesType}")
+        };
+
+        /// <summary>
+        /// Преобразует кватернион в углы Эйлера (ZXZ)
+        /// </summary>
+        public static EulerAngles ToClassicEulerAngles(this Quaternion q)
+        {
+            // Модульный тест не работает. Перепробовал разные формулы. Нужно разбираться...
+            throw new NotImplementedException();
+
+            //double psi = Math.Atan2((q[1] * q[3] + q[0] * q[2]), (q[2] * q[3] - q[0] * q[1]));
+            //double theta = Math.Acos(q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
+            //double phi = Math.Atan2((q[1] * q[3] - q[0] * q[2]), (q[2] * q[3] + q[0] * q[1]));
+
+            //return EulerAngles.CreateClassic(Angle.FromRad(psi), Angle.FromRad(theta), Angle.FromRad(phi));
+
+        }
+
+        public static EulerAngles ToKrylovEulerAngles(this Quaternion q)
+        {
+            double psi = Math.Atan2((q[0] * q[2] - q[1] * q[3]), (q[0] * q[0] + q[1] * q[1] - 0.5));
+            double theta = Math.Asin(2.0 * (q[1] * q[2] + q[0] * q[3]));
+            double phi = Math.Atan2((q[0] * q[1] - q[2] * q[3]), (q[0] * q[0] + q[2] * q[2] - 0.5));
+
+            return EulerAngles.CreateKrylov(Angle.FromRad(psi), Angle.FromRad(theta), Angle.FromRad(phi));
+
+        }
+       
+        #endregion
     }
 }
