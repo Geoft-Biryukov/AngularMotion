@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Orientation.Core.OrientationRepresentations
+﻿namespace Orientation.Core.OrientationRepresentations
 {
+    /// <summary>
+    /// Статические методы расширения для преобразования кватерниона ориентации в углы ориентации и обратно   
+    /// Ю.Н. Челноков Кватернионные и бикватернионные модели и методы механики твердого тела и их приложения. Геометрия и кинематика движения
+    /// </summary>
     public static class AnglesQuaternionConverter
     {
         #region ToQuaternion
@@ -13,7 +11,7 @@ namespace Orientation.Core.OrientationRepresentations
         /// Преобразует углы Эйлера в кватернион
         /// </summary>
         /// <param name="angles">Углы Эйлера</param>
-        /// <returns>Нормализованный кватернион</returns>
+        /// <returns>Кватернион ориентации</returns>
         public static Quaternion ToQuaternion(this EulerAngles angles)
         {
             var psi = angles.Psi;
@@ -22,13 +20,16 @@ namespace Orientation.Core.OrientationRepresentations
 
             return angles.AnglesType switch
             {
-                EulerAnglesTypes.Classic => FromClassicalEulerAngles(psi, theta, phi),
-                EulerAnglesTypes.Krylov => FromKrylovEulerAngles(psi, theta, phi),
+                EulerAnglesTypes.Classic => FromClassic(psi, theta, phi),
+                EulerAnglesTypes.Krylov => FromKrylov(psi, theta, phi),
                 _ => throw new NotSupportedException($"Неизвестный тип углов Эйлера: {angles.AnglesType}"),
             };
         } 
         
-        private static Quaternion FromClassicalEulerAngles(Angle psi, Angle theta, Angle phi)
+        /// <summary>
+        /// Стр. 151
+        /// </summary>        
+        private static Quaternion FromClassic(Angle psi, Angle theta, Angle phi)
         {
             var halfPsi = 0.5 * psi;
             var halfTheta = 0.5 * theta;
@@ -52,8 +53,10 @@ namespace Orientation.Core.OrientationRepresentations
             return new Quaternion(w, x, y, z);
         }
 
-       
-        private static Quaternion FromKrylovEulerAngles(Angle psi, Angle theta, Angle phi)
+       /// <summary>
+       /// Стр. 162-163
+       /// </summary>       
+        private static Quaternion FromKrylov(Angle psi, Angle theta, Angle phi)
         {
             var halfPsi = 0.5 * psi;
             var halfTheta = 0.5 * theta;
@@ -80,6 +83,13 @@ namespace Orientation.Core.OrientationRepresentations
 
         #region ToEulerAngles
 
+        /// <summary>
+        /// Преобразует кватернион в набор углов заданного типа
+        /// </summary>
+        /// <param name="q">Кватернион ориентации</param>
+        /// <param name="anglesType">Тип набора углов</param>
+        /// <returns>Углы ориентации заданного типа</returns>
+        /// <exception cref="NotSupportedException"></exception>
         public static EulerAngles ToEulerAngles(this Quaternion q, EulerAnglesTypes anglesType)
         => anglesType switch
         { 
@@ -88,9 +98,15 @@ namespace Orientation.Core.OrientationRepresentations
             _ => throw new NotSupportedException($"Неизвестный тип углов Эйлера: {anglesType}")
         };
 
-        /// <summary>
-        /// Преобразует кватернион в углы Эйлера (ZXZ)
+        /// <summary>        
+        /// Преобразует кватернион в классические углы Эйлера (ZXZ)       
         /// </summary>
+        /// <param name="q">>Кватернион ориентации</param>
+        /// <returns>Классические углы Эйлера</returns>
+        /// <exception cref="NotImplementedException">
+        /// Пока не удалось реализовать этот метод.
+        /// Проблема при Theta = 0.
+        /// </exception>
         public static EulerAngles ToClassicEulerAngles(this Quaternion q)
         {
             // Модульный тест не работает. Перепробовал разные формулы. Нужно разбираться...
@@ -104,6 +120,12 @@ namespace Orientation.Core.OrientationRepresentations
 
         }
 
+        /// <summary>
+        /// Преобразует кватернион в углы Эйлера-Крылова (самолетные углы) (YZX)   
+        /// Стр. 379
+        /// </summary>
+        /// <param name="q">Кватернион ориентации</param>
+        /// <returns>Углы Эйлера-Крылова</returns>
         public static EulerAngles ToKrylovEulerAngles(this Quaternion q)
         {
             double psi = Math.Atan2((q[0] * q[2] - q[1] * q[3]), (q[0] * q[0] + q[1] * q[1] - 0.5));
