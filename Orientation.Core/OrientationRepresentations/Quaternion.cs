@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
-
-namespace Orientation.Core.OrientationRepresentations
+﻿namespace Orientation.Core.OrientationRepresentations
 {    
     public readonly struct Quaternion : IEquatable<Quaternion>, IFormattable
     {
