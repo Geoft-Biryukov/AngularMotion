@@ -4,7 +4,7 @@
     /// Статические методы расширения для преобразования кватерниона ориентации в углы ориентации и обратно   
     /// Ю.Н. Челноков Кватернионные и бикватернионные модели и методы механики твердого тела и их приложения. Геометрия и кинематика движения
     /// </summary>
-    public static class AnglesQuaternionConverter
+    public static class OrientationConverters
     {
         #region ToQuaternion
         /// <summary>
