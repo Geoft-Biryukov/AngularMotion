@@ -3,7 +3,7 @@
 namespace Orientation.Core.Tests;
 
 [TestFixture]
-public class AnglesQuaternionConverterTests
+public class OrientationConvertersTests
 {
     #region ToQuaternion
     [Test]
