@@ -7,9 +7,12 @@ namespace OrdinaryDifferentialEquations
     /// Вектор состояния системы дифференциальных уравнений
     /// </summary>
     public class StateVector : IEnumerable<double>
-    {        
+    {
+        #region fields
         private readonly double[] vector;
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Создает вектор состояний для системы заданного порядка
         /// </summary>
@@ -40,7 +43,9 @@ namespace OrdinaryDifferentialEquations
             Order = values.Length;
             vector = (double[])values.Clone(); // Защита от внешних изменений
         }
+        #endregion
 
+        #region Essential
         /// <summary>
         /// Порядок системы дифференциальных уравнений
         /// </summary>
@@ -70,7 +75,14 @@ namespace OrdinaryDifferentialEquations
                 vector[index] = value;
             }
         }
+        #endregion
 
+        #region Helpers
+        private bool CheckIndex(int index)
+            => index >= 0 && index < Order;
+        #endregion
+
+        #region Utils
         /// <summary>
         /// Создает и возвращает копию вектора состояния в виде массива
         /// </summary>
@@ -88,7 +100,7 @@ namespace OrdinaryDifferentialEquations
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
             
-            if (index < 0 || index >= array.Length)
+            if (index < 0 || index + vector.Length > array.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             vector.CopyTo(array, index);
@@ -100,10 +112,9 @@ namespace OrdinaryDifferentialEquations
         /// <param name="value">Значение для заполнения</param>
         public void Fill(double value) 
             => Array.Fill(vector, value);
+        #endregion
 
-        private bool CheckIndex(int index)
-            => index >= 0 && index < Order;
-
+        #region interface implementation
         public IEnumerator<double> GetEnumerator()
         {
             foreach (var value in vector)
@@ -114,5 +125,6 @@ namespace OrdinaryDifferentialEquations
         {
             return GetEnumerator();
         }
+        #endregion       
     }
 }
