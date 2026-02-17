@@ -1,5 +1,4 @@
-﻿using Moq;
-using OrdinaryDifferentialEquations.Solvers;
+﻿using OrdinaryDifferentialEquations.Solvers;
 using OrdinaryDifferentialEquations.Solvers.SolversSettings;
 using OrdinaryDifferentialEquations.Tests.Solvers;
 
@@ -8,8 +7,6 @@ namespace OrdinaryDifferentialEquations.Tests;
 [TestFixture]
 public class EulerMethodTests
 {
-    private InitialValueProblem problem;
-
     private InitialValueProblem problemHarmonic;
 
     [SetUp]
@@ -17,8 +14,6 @@ public class EulerMethodTests
     {
         double initTime = 0;
         var initCond = new StateVector([0.1, 0]);
-        var eqns = new SecondOrderAutonomousEquation(initTime, initCond);
-        problem = new InitialValueProblem(initTime, initCond, eqns);
 
         var eqnsHarm = new HarmonicOscillatorEquation(1);
         problemHarmonic = new InitialValueProblem(initTime, initCond, eqnsHarm);
@@ -46,35 +41,11 @@ public class EulerMethodTests
         Assert.That(solver, Is.Not.Null);
 
     }
-
-    //[Test]
-    //[TestCase(0.1, 10.0)]
-    //[TestCase(0.01, 10.0)]
-    //public void Solve_ShouldSolveOde_ReturnSolution(double step, double finalTime)
-    //{
-    //    // Arrange        
-    //    var settings = new EulerMethodSettings(step);
-    //    var slnProvider = problem.Equation as IAnalyticalSolutionProvider;
-
-    //    var slnFinal = slnProvider.GetAnalyticalSolution(finalTime);
-
-    //    // Apply
-    //    var solver = new EulerMethodSolver(settings);
-    //    var numSln = solver.Solve(problem, finalTime).ToArray();
-
-    //    // Assert
-    //    Assert.Multiple(() =>
-    //    {
-    //        Assert.That(numSln.Last().Time, Is.EqualTo(finalTime).Within(step));
-    //        Assert.That(numSln.Last().State[0], Is.EqualTo(slnProvider.GetAnalyticalSolution(numSln.Last().Time)[0]).Within(step));
-    //    });
-       
-
-    //}
-
+    
     [Test]
     [TestCase(0.1, 10.0)]
     [TestCase(0.01, 10.0)]
+    [TestCase(0.0123, 10.324)]
     public void Solve_ShouldSolveOdeHarmonic_ReturnSolution(double step, double finalTime)
     {
         // Arrange        
@@ -87,11 +58,16 @@ public class EulerMethodTests
         var solver = new EulerMethodSolver(settings);
         var numSln = solver.Solve(problemHarmonic, finalTime).ToArray();
 
+        var finalSln = slnProvider.GetAnalyticalSolution(finalTime);
+
+        double eps = Math.Pow(step, 1);
+
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(numSln.Last().Time, Is.EqualTo(finalTime).Within(step));
-            Assert.That(numSln.Last().State[0], Is.EqualTo(slnProvider.GetAnalyticalSolution(numSln.Last().Time)[0]).Within(step));
+            Assert.That(numSln.Last().Time, Is.EqualTo(finalTime).Within(1e-10));
+            Assert.That(numSln.Last().State[0], Is.EqualTo(finalSln[0]).Within(eps));
+            Assert.That(numSln.Last().State[1], Is.EqualTo(finalSln[1]).Within(eps));
         });
 
 

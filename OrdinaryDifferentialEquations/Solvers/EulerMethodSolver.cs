@@ -1,6 +1,4 @@
-﻿
-
-using OrdinaryDifferentialEquations.Solvers.SolversSettings;
+﻿using OrdinaryDifferentialEquations.Solvers.SolversSettings;
 
 namespace OrdinaryDifferentialEquations.Solvers
 {
@@ -9,7 +7,8 @@ namespace OrdinaryDifferentialEquations.Solvers
     /// </summary>
     public class EulerMethodSolver : IOdeSolver
     {
-        private readonly EulerMethodSettings settings;        
+        private readonly EulerMethodSettings settings;
+        private const double tolerance = 1e-10;
 
         /// <summary>
         /// Создает решатель методом Эйлера с заданными настройками
@@ -38,8 +37,15 @@ namespace OrdinaryDifferentialEquations.Solvers
 
             yield return new Variables(t, currentState);
 
-            while (t <= finalTime)
-            {                                                              
+            while (Math.Abs(finalTime - t) > tolerance)
+            {
+                var delta = finalTime - t;
+
+                if (delta < step)
+                {
+                    step = delta;                    
+                }
+
                 currentState = currentState + step * equation.Evaluate(t, currentState);
                 
                 t += step; 
