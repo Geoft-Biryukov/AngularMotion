@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdinaryDifferentialEquatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdinaryDifferentialEquations.Tests", "OrdinaryDifferentialEquations.Tests\OrdinaryDifferentialEquations.Tests.csproj", "{4F95563F-134C-42A8-8214-5481C3D6B248}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{382AB7A7-433D-45B1-9B4B-3CFE08AA8661} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4F95563F-134C-42A8-8214-5481C3D6B248} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11D9C325-1D96-4D32-A9B6-7C7ADC73DE48}

@@ -77,6 +77,86 @@ namespace OrdinaryDifferentialEquations
         }
         #endregion
 
+        #region Operators
+        /// <summary>
+        /// Умножение вектора состояния на число
+        /// </summary>
+        /// <param name="number">Заданное число</param>
+        /// <param name="vector">Вектор состояния</param>
+        /// <returns>Результат умножения</returns>
+        public static StateVector operator * (double number, StateVector vector)
+        {
+            StateVector result = new(vector.Order);
+
+            for (int i = 0; i < vector.Order; i++)
+                result[i] = number * vector[i];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Умножение вектора состояния на число
+        /// </summary>
+        /// <param name="number">Заданное число</param>
+        /// <param name="vector">Вектор состояния</param>
+        /// <returns>Результат умножения</returns>
+        public static StateVector operator *(StateVector vector, double number)
+        {
+            StateVector result = new(vector.Order);
+
+            for (int i = 0; i < vector.Order; i++)
+                result[i] = number * vector[i];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Сумма двух векторов состояния
+        /// </summary>
+        /// <param name="vector1">Первое слагаемое</param>
+        /// <param name="vector2">Второе слагаемое</param>
+        /// <returns>Сумму vector1 + vector2</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static StateVector operator + (StateVector vector1, StateVector vector2)
+        {
+            ArgumentNullException.ThrowIfNull(vector1);
+            ArgumentNullException.ThrowIfNull(vector2);
+
+            if (vector1.Order != vector2.Order)
+                throw new ArgumentException($"Сложение вектров состояния: не совпали размерности");
+
+            StateVector result = new(vector1.Order);
+
+            for (int i = 0; i < vector1.Order; i++)
+                result[i] = vector1[i] + vector2[i];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Разность двух векторов состояния
+        /// </summary>
+        /// <param name="vector1">Уменьшаемое</param>
+        /// <param name="vector2">Вычитаемое</param>
+        /// <returns>Разность vector1 - vector2</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static StateVector operator -(StateVector vector1, StateVector vector2)
+        {
+            ArgumentNullException.ThrowIfNull(vector1);
+            ArgumentNullException.ThrowIfNull(vector2);
+
+            if (vector1.Order != vector2.Order)
+                throw new ArgumentException($"Разность вектров состояния: не совпали размерности");
+
+            StateVector result = new(vector1.Order);
+
+            for (int i = 0; i < vector1.Order; i++)
+                result[i] = vector1[i] - vector2[i];
+
+            return result;
+        }       
+        #endregion
+
         #region Helpers
         private bool CheckIndex(int index)
             => index >= 0 && index < Order;

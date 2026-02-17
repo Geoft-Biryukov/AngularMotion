@@ -157,5 +157,119 @@ namespace OrdinaryDifferentialEquations.Tests
             Assert.That(result, Is.Not.SameAs(source));
         }
         #endregion
+
+        #region Operators
+        [Test]
+        public void MultiplyToNumberLeftWorksCorrectly()
+        {
+            //Arrange
+            double number = 2.2;
+            var array = new double[] { 1, 2, 3 };
+            var v = new StateVector(array);
+            // Apply
+            var result = number * v;
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result[0], Is.EqualTo(number * array[0]));
+                Assert.That(result[1], Is.EqualTo(number * array[1]));
+                Assert.That(result[2], Is.EqualTo(number * array[2]));
+            });
+        }
+
+        [Test]
+        public void MultiplyToNumberRightWorksCorrectly()
+        {
+            //Arrange
+            double number = 2.2;
+            var array = new double[] { 1, 2, 3 };
+            var v = new StateVector(array);
+            // Apply
+            var result = v * number;
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result[0], Is.EqualTo(number * array[0]));
+                Assert.That(result[1], Is.EqualTo(number * array[1]));
+                Assert.That(result[2], Is.EqualTo(number * array[2]));
+            });
+        }
+
+        [Test]
+        public void AdditionWorksCorrectly()
+        {
+            //Arrange            
+            var array1 = new double[] { 1, 2, 3 };
+            var array2 = new double[] { 3, 2, 1 };
+            var v1 = new StateVector(array1);
+            var v2 = new StateVector(array2);
+
+            // Apply
+            var result = v1 + v2;
+            
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result[0], Is.EqualTo(v1[0] + v2[0]));
+                Assert.That(result[1], Is.EqualTo(v1[0] + v2[0]));
+                Assert.That(result[2], Is.EqualTo(v1[0] + v2[0]));
+            });
+        }
+
+        [Test]
+        public void AdditionThrows_MismatchOrders()
+        {
+            //Arrange            
+            var array1 = new double[] { 1, 2, 3 };
+            var array2 = new double[] { 3, 2, 1, 5 };
+            var v1 = new StateVector(array1);
+            var v2 = new StateVector(array2);
+
+            // Apply
+
+
+            // Assert
+
+            Assert.Throws<ArgumentException>(() => { var res = v1 + v2; });
+        }
+
+        [Test]
+        public void SubtractionWorksCorrectly()
+        {
+            //Arrange            
+            var array1 = new double[] { 1, 2, 3 };
+            var array2 = new double[] { 3, 2, 1 };
+            var v1 = new StateVector(array1);
+            var v2 = new StateVector(array2);
+
+            // Apply
+            var result = v1 - v2;
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result[0], Is.EqualTo(v1[0] - v2[0]));
+                Assert.That(result[1], Is.EqualTo(v1[1] - v2[1]));
+                Assert.That(result[2], Is.EqualTo(v1[2] - v2[2]));
+            });
+        }
+
+        [Test]
+        public void SubtractionThrows_MismatchOrders()
+        {
+            //Arrange            
+            var array1 = new double[] { 1, 2, 3 };
+            var array2 = new double[] { 3, 2, 1, 5 };
+            var v1 = new StateVector(array1);
+            var v2 = new StateVector(array2);
+
+            // Apply
+
+
+            // Assert
+
+            Assert.Throws<ArgumentException>(() => { var res = v1 - v2; });
+        }
+        #endregion
     }
 }
