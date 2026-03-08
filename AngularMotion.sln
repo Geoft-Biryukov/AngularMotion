@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdinaryDifferentialEquatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Common", "Math.Common\Math.Common.csproj", "{869D789C-D4B3-49AD-AB91-C59A3B0D027C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularMotion.Mathematics", "Math.Common\AngularMotion.Mathematics.csproj", "{869D789C-D4B3-49AD-AB91-C59A3B0D027C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Common.Tests", "Math.Common.Tests\Math.Common.Tests.csproj", "{ECF3BD7F-1EA3-43E7-A4B0-9B5EBEE2F19D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularMotion.Mathematics.Tests", "Math.Common.Tests\AngularMotion.Mathematics.Tests.csproj", "{ECF3BD7F-1EA3-43E7-A4B0-9B5EBEE2F19D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

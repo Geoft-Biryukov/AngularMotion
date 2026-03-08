@@ -1,6 +1,6 @@
 using NUnit.Framework.Constraints;
 
-namespace Math.Common.Tests
+namespace AngularMotion.Mathematics.Tests
 {
     public class Vector3DTests
     {

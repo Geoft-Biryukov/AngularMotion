@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Math.Common\Math.Common.csproj" />
+    <ProjectReference Include="..\Math.Common\AngularMotion.Mathematics.csproj" />
   </ItemGroup>
 
   <ItemGroup>

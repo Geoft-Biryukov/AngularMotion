@@ -1,4 +1,4 @@
-﻿namespace Math.Common
+﻿namespace AngularMotion.Mathematics
 {
     /// <summary>
     /// Вектор в 3-х мерном пространстве
@@ -133,9 +133,9 @@
         #endregion
 
         public bool Equals(Vector3D other, double tolerance = 1e-10)
-            => System.Math.Abs(X - other.X) < tolerance &&
-             System.Math.Abs(Y - other.Y) < tolerance &&
-             System.Math.Abs(Z - other.Z) < tolerance;
+            => Math.Abs(X - other.X) < tolerance &&
+             Math.Abs(Y - other.Y) < tolerance &&
+             Math.Abs(Z - other.Z) < tolerance;
 
         public bool Equals(Vector3D other)
             => X == other.X && Y == other.Y && Z == other.Z;
