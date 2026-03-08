@@ -3,7 +3,7 @@
     /// <summary>
     /// Вектор в 3-х мерном пространстве
     /// </summary>
-    public struct Vector3D
+    public struct Vector3D : IEquatable<Vector3D>, IFormattable
     {        
         /// <summary>
         /// Создает вектор с компонентами x, y, z
@@ -96,6 +96,10 @@
             double m = 1.0 / d;
             return new Vector3D(v.X * m, v.Y * m, v.Z * m);
         }
+
+        public static bool operator ==(Vector3D v1, Vector3D v2) => v1.Equals(v2);        
+
+        public static bool operator !=(Vector3D v1, Vector3D v2) => !v1.Equals(v2);
         #endregion
 
         #region Multiplication
@@ -126,8 +130,25 @@
 
             return new Vector3D(x, y, z);
         }
-
-
         #endregion
+
+        public bool Equals(Vector3D other, double tolerance = 1e-10)
+            => System.Math.Abs(X - other.X) < tolerance &&
+             System.Math.Abs(Y - other.Y) < tolerance &&
+             System.Math.Abs(Z - other.Z) < tolerance;
+
+        public bool Equals(Vector3D other)
+            => X == other.X && Y == other.Y && Z == other.Z;
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            if (string.IsNullOrEmpty(format))
+                format = @"({0}, {1}, {2})";
+            return string.Format(format, X.ToString(formatProvider), Y.ToString(formatProvider), Z.ToString(formatProvider));
+        }
+
+        public override bool Equals(object obj) => obj is Vector3D other && Equals(other);
+        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+        public override string ToString() => $"({X:G6}, {Y:G6}, {Z:G6})";
     }
 }
