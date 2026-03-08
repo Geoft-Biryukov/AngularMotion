@@ -232,133 +232,106 @@ namespace Orientation.Core.OrientationRepresentations
             double z = matrix.R31 * vector.X + matrix.R32 * vector.Y + matrix.R33 * vector.Z;
 
             return new Vector3((float)x, (float)y, (float)z);
-        }
+        }        
 
-        /// <summary>
-        /// Создает DCM из кватерниона
-        /// </summary>
-        public static DirectionCosineMatrix FromQuaternion(Quaternion q)
-        {
-            double w = q.W, x = q.X, y = q.Y, z = q.Z;
+        ///// <summary>
+        ///// Создает DCM из углов Эйлера ZYX (yaw-pitch-roll)
+        ///// </summary>
+        //public static DirectionCosineMatrix FromEulerZYX(double yaw, double pitch, double roll)
+        //{
+        //    double cy = Math.Cos(yaw);
+        //    double sy = Math.Sin(yaw);
+        //    double cp = Math.Cos(pitch);
+        //    double sp = Math.Sin(pitch);
+        //    double cr = Math.Cos(roll);
+        //    double sr = Math.Sin(roll);
 
-            double w2 = w * w;
-            double x2 = x * x;
-            double y2 = y * y;
-            double z2 = z * z;
+        //    double r11 = cy * cp;
+        //    double r12 = cy * sp * sr - sy * cr;
+        //    double r13 = cy * sp * cr + sy * sr;
 
-            double r11 = w2 + x2 - y2 - z2;
-            double r12 = 2 * (x * y - w * z);
-            double r13 = 2 * (x * z + w * y);
+        //    double r21 = sy * cp;
+        //    double r22 = sy * sp * sr + cy * cr;
+        //    double r23 = sy * sp * cr - cy * sr;
 
-            double r21 = 2 * (x * y + w * z);
-            double r22 = w2 - x2 + y2 - z2;
-            double r23 = 2 * (y * z - w * x);
+        //    double r31 = -sp;
+        //    double r32 = cp * sr;
+        //    double r33 = cp * cr;
 
-            double r31 = 2 * (x * z - w * y);
-            double r32 = 2 * (y * z + w * x);
-            double r33 = w2 - x2 - y2 + z2;
+        //    return new DirectionCosineMatrix(r11, r12, r13, r21, r22, r23, r31, r32, r33);
+        //}
 
-            return new DirectionCosineMatrix(r11, r12, r13, r21, r22, r23, r31, r32, r33);
-        }
+        ///// <summary>
+        ///// Создает DCM из углов Эйлера ZXZ
+        ///// </summary>
+        //public static DirectionCosineMatrix FromEulerZXZ(double psi, double theta, double phi)
+        //{
+        //    double c1 = Math.Cos(psi);
+        //    double s1 = Math.Sin(psi);
+        //    double c2 = Math.Cos(theta);
+        //    double s2 = Math.Sin(theta);
+        //    double c3 = Math.Cos(phi);
+        //    double s3 = Math.Sin(phi);
 
-        /// <summary>
-        /// Создает DCM из углов Эйлера ZYX (yaw-pitch-roll)
-        /// </summary>
-        public static DirectionCosineMatrix FromEulerZYX(double yaw, double pitch, double roll)
-        {
-            double cy = Math.Cos(yaw);
-            double sy = Math.Sin(yaw);
-            double cp = Math.Cos(pitch);
-            double sp = Math.Sin(pitch);
-            double cr = Math.Cos(roll);
-            double sr = Math.Sin(roll);
+        //    double r11 = c1 * c3 - s1 * c2 * s3;
+        //    double r12 = -c1 * s3 - s1 * c2 * c3;
+        //    double r13 = s1 * s2;
 
-            double r11 = cy * cp;
-            double r12 = cy * sp * sr - sy * cr;
-            double r13 = cy * sp * cr + sy * sr;
+        //    double r21 = s1 * c3 + c1 * c2 * s3;
+        //    double r22 = -s1 * s3 + c1 * c2 * c3;
+        //    double r23 = -c1 * s2;
 
-            double r21 = sy * cp;
-            double r22 = sy * sp * sr + cy * cr;
-            double r23 = sy * sp * cr - cy * sr;
+        //    double r31 = s2 * s3;
+        //    double r32 = s2 * c3;
+        //    double r33 = c2;
 
-            double r31 = -sp;
-            double r32 = cp * sr;
-            double r33 = cp * cr;
+        //    return new DirectionCosineMatrix(r11, r12, r13, r21, r22, r23, r31, r32, r33);
+        //}
 
-            return new DirectionCosineMatrix(r11, r12, r13, r21, r22, r23, r31, r32, r33);
-        }
+        ///// <summary>
+        ///// Преобразует DCM в кватернион
+        ///// </summary>
+        //public Quaternion ToQuaternion()
+        //{
+        //    double trace = R11 + R22 + R33;
 
-        /// <summary>
-        /// Создает DCM из углов Эйлера ZXZ
-        /// </summary>
-        public static DirectionCosineMatrix FromEulerZXZ(double psi, double theta, double phi)
-        {
-            double c1 = Math.Cos(psi);
-            double s1 = Math.Sin(psi);
-            double c2 = Math.Cos(theta);
-            double s2 = Math.Sin(theta);
-            double c3 = Math.Cos(phi);
-            double s3 = Math.Sin(phi);
-
-            double r11 = c1 * c3 - s1 * c2 * s3;
-            double r12 = -c1 * s3 - s1 * c2 * c3;
-            double r13 = s1 * s2;
-
-            double r21 = s1 * c3 + c1 * c2 * s3;
-            double r22 = -s1 * s3 + c1 * c2 * c3;
-            double r23 = -c1 * s2;
-
-            double r31 = s2 * s3;
-            double r32 = s2 * c3;
-            double r33 = c2;
-
-            return new DirectionCosineMatrix(r11, r12, r13, r21, r22, r23, r31, r32, r33);
-        }
-
-        /// <summary>
-        /// Преобразует DCM в кватернион
-        /// </summary>
-        public Quaternion ToQuaternion()
-        {
-            double trace = R11 + R22 + R33;
-
-            if (trace > 0)
-            {
-                double s = 0.5 / Math.Sqrt(trace + 1.0);
-                double w = 0.25 / s;
-                double x = (R32 - R23) * s;
-                double y = (R13 - R31) * s;
-                double z = (R21 - R12) * s;
-                return new Quaternion((float)x, (float)y, (float)z, (float)w);
-            }
-            else if (R11 > R22 && R11 > R33)
-            {
-                double s = 2.0 * Math.Sqrt(1.0 + R11 - R22 - R33);
-                double w = (R32 - R23) / s;
-                double x = 0.25 * s;
-                double y = (R12 + R21) / s;
-                double z = (R13 + R31) / s;
-                return new Quaternion((float)x, (float)y, (float)z, (float)w);
-            }
-            else if (R22 > R33)
-            {
-                double s = 2.0 * Math.Sqrt(1.0 + R22 - R11 - R33);
-                double w = (R13 - R31) / s;
-                double x = (R12 + R21) / s;
-                double y = 0.25 * s;
-                double z = (R23 + R32) / s;
-                return new Quaternion((float)x, (float)y, (float)z, (float)w);
-            }
-            else
-            {
-                double s = 2.0 * Math.Sqrt(1.0 + R33 - R11 - R22);
-                double w = (R21 - R12) / s;
-                double x = (R13 + R31) / s;
-                double y = (R23 + R32) / s;
-                double z = 0.25 * s;
-                return new Quaternion((float)x, (float)y, (float)z, (float)w);
-            }
-        }
+        //    if (trace > 0)
+        //    {
+        //        double s = 0.5 / Math.Sqrt(trace + 1.0);
+        //        double w = 0.25 / s;
+        //        double x = (R32 - R23) * s;
+        //        double y = (R13 - R31) * s;
+        //        double z = (R21 - R12) * s;
+        //        return new Quaternion((float)x, (float)y, (float)z, (float)w);
+        //    }
+        //    else if (R11 > R22 && R11 > R33)
+        //    {
+        //        double s = 2.0 * Math.Sqrt(1.0 + R11 - R22 - R33);
+        //        double w = (R32 - R23) / s;
+        //        double x = 0.25 * s;
+        //        double y = (R12 + R21) / s;
+        //        double z = (R13 + R31) / s;
+        //        return new Quaternion((float)x, (float)y, (float)z, (float)w);
+        //    }
+        //    else if (R22 > R33)
+        //    {
+        //        double s = 2.0 * Math.Sqrt(1.0 + R22 - R11 - R33);
+        //        double w = (R13 - R31) / s;
+        //        double x = (R12 + R21) / s;
+        //        double y = 0.25 * s;
+        //        double z = (R23 + R32) / s;
+        //        return new Quaternion((float)x, (float)y, (float)z, (float)w);
+        //    }
+        //    else
+        //    {
+        //        double s = 2.0 * Math.Sqrt(1.0 + R33 - R11 - R22);
+        //        double w = (R21 - R12) / s;
+        //        double x = (R13 + R31) / s;
+        //        double y = (R23 + R32) / s;
+        //        double z = 0.25 * s;
+        //        return new Quaternion((float)x, (float)y, (float)z, (float)w);
+        //    }
+        //}
 
         /// <summary>
         /// Преобразует DCM в углы Эйлера ZYX (yaw-pitch-roll)
